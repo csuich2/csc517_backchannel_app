@@ -1,4 +1,17 @@
 BackchannelApp::Application.routes.draw do
+  get "categories/new"
+
+  get "comments/new"
+
+  get "posts/new"
+
+  match ':controller(/:action(/:id))(.:format)'
+  root :to => 'sessions#login'
+  match "signup", :to => 'users#new'
+  match "login", :to => 'sessions#login'
+  match "logout", :to => 'sessions#logout'
+  match "home", :to => 'sessions#home'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
