@@ -1,9 +1,5 @@
 BackchannelApp::Application.routes.draw do
-  get "categories/new"
-
-  get "comments/new"
-
-  get "posts/new"
+  resources :categories
 
   match ':controller(/:action(/:id))(.:format)'
   root :to => 'sessions#login'

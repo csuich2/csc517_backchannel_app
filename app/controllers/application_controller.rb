@@ -12,6 +12,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def assert_is_admin_user
+    if @current_user.is_admin
+      return true
+    else
+      flash[:notice] = "You are not authorized to view that page."
+      redirect_to(:controller => 'sessions', :action => 'home')
+      return false
+    end
+  end
+
   def save_login_state
     if session[:user_id]
       redirect_to(:controller =>  'sessions', :action => 'home')
