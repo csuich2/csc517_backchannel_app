@@ -1,4 +1,5 @@
 BackchannelApp::Application.routes.draw do
+  resources :posts
   resources :categories
 
   match ':controller(/:action(/:id))(.:format)'
