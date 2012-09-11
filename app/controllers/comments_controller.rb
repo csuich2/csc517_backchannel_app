@@ -18,12 +18,15 @@ class CommentsController < ApplicationController
   # POST /comments
   def create
     @comment = Comment.new(params[:comment])
+    @comment.owner_id = @current_user.id
+    @comment.post_id = params[:post_id]
+    @post = Post.find(params[:post_id])
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
+        format.html { redirect_to post_path(@post), notice: 'Comment was successfully created.' }
       else
-        format.html { render action: "new" }
+        format.html { redirect_to post_path(@post), notice: 'An error occurred creating your comment' }
       end
     end
   end
@@ -31,12 +34,15 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   def update
     @comment = Comment.find(params[:id])
+    @post = Post.find(@comment.post_id)
+
+    assert_is_owner_or_admin(@comment.owner_id)
 
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
-        format.html { redirect_to @comment, notice: 'Comment was successfully updated.' }
+        format.html { redirect_to post_path(@post), notice: 'Comment was successfully updated.' }
       else
-        format.html { render action: "edit" }
+        format.html { redirect_to post_path(@post), notice: 'An error occurred saving your comment' }
       end
     end
   end
@@ -45,9 +51,12 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy
+    @post = Post.find(@comment.post_id)
+
+    assert_is_owner_or_admin(@comment.owner_id)
 
     respond_to do |format|
-      format.html { redirect_to comments_url }
+      format.html { redirect_to post_path(@post), notice: 'Comment was successfully deleted.' }
     end
   end
 end
