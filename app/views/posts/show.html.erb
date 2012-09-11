@@ -11,8 +11,15 @@
 </p>
 
 <p>
-  <b>Owner:</b>
-  <%= @post.owner_id %>
+  <b>Poster:</b>
+  <%= User.find(@post.owner_id).username %>
+</p>
+
+<p>
+  <b>Comments:</b>
+  <% Comment.where(["post_id = ?", @post.id]).each do |c| %>
+    <p><%= c.text %> (<%= User.find(c.owner_id).username %>)</p>
+  <% end %>
 </p>
 
 

@@ -3,8 +3,7 @@
 <table>
   <tr>
     <th>Title</th>
-    <th>Text</th>
-    <th>Owner</th>
+    <th>Poster</th>
     <th></th>
     <th></th>
     <th></th>
@@ -13,11 +12,12 @@
 <% @posts.each do |post| %>
   <tr>
     <td><%= post.title %></td>
-    <td><%= post.text %></td>
-    <td><%= post.owner_id %></td>
+    <td><%= User.find(post.owner_id).username %></td>
     <td><%= link_to 'Show', post %></td>
+    <% if post.owner_id == @current_user.id || @current_user.is_admin? %>
     <td><%= link_to 'Edit', edit_post_path(post) %></td>
     <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    <% end %>
   </tr>
 <% end %>
 </table>

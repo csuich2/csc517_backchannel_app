@@ -17,8 +17,6 @@ class PostsController < ApplicationController
   def show
     @post = Post.find(params[:id])
 
-    assert_is_owner_or_admin(@post.owner_id)
-
     respond_to do |format|
       format.html # show.html.erb
     end
@@ -43,6 +41,9 @@ class PostsController < ApplicationController
   # POST /posts
   def create
     @post = Post.new(params[:post])
+
+    # TODO can we move this into the post object? When I tried, @current_user was nil in the before_save callback
+    @post.owner_id = @current_user.id
 
     respond_to do |format|
       if @post.save

@@ -15,9 +15,9 @@
     <%= f.label :title %><br />
     <%= f.text_field :title %>
   </div>
-  <div class="filed">
+  <div class="field">
     <%= f.label :category %><br />
-    <%= select("post", "category_id", Category.all().collect{|c|[c.name, c.id]}) %>
+    <%= collection_select(:category, :id, Category.all, :id, :name) %>
   </div>
   <div class="field">
     <%= f.label :text %><br />

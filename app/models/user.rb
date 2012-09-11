@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   validates :password, :confirmation => true
   validates_length_of :password, :in => 6..20, :on => :create
 
-  attr_accessible :username, :password, :password_confirmation
+  attr_accessible :username, :password, :password_confirmation, :is_admin
 
   def self.authenticate(username="", login_password="")
     user = User.find_by_username(username)
