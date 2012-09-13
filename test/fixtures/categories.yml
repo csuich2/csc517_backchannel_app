@@ -1,7 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  name: MyString
+category1:
+  name: 'Category 1'
 
-two:
-  name: MyString
+category2:
+  name: 'Category 2'
+
+category3:
+  name: 'Category 3'
+

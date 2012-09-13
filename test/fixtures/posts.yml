@@ -1,11 +1,7 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
-one:
-  title: MyString
-  text: MyText
-  owner_id: 1
-
-two:
-  title: MyString
-  text: MyText
-  owner_id: 1
+post1:
+  title: 'Test post 1'
+  text: 'lakjsdlfajdslfajsdlfjasdlfkjalsdfk'
+  owner_id: 2
+  category_id: 1
