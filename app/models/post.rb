@@ -6,7 +6,6 @@ class Post < ActiveRecord::Base
 
   validates :title, :presence => true, :length => { :in => 3..20 }
   validates :text,  :presence => true
-  validates :category_id, :presence => true#, :inclusion => { :in => Category.all(:select => 'id'),
+  validates :category_id, :presence => true#, :inclusion => { :in => Category.all(:select => 'id').collect(),
                                             #                 :message => "%{value} is not a valid category id." }
-
 end

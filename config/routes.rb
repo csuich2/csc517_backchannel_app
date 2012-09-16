@@ -3,6 +3,7 @@ BackchannelApp::Application.routes.draw do
     resources :comments
   end
   resources :categories
+  resources :users
 
   match ':controller(/:action(/:id))(.:format)'
   root :to => 'sessions#login'
@@ -10,6 +11,10 @@ BackchannelApp::Application.routes.draw do
   match "login", :to => 'sessions#login'
   match "logout", :to => 'sessions#logout'
   match "home", :to => 'sessions#home'
+
+  match "/users", :to => 'users#index'
+  match "/users/revoke_admin/:id", :to => 'users#revoke_admin'
+  match "/users/make_admin/:id", :to => 'users#make_admin'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -21,8 +21,8 @@ ActiveRecord::Schema.define(:version => 20120910214616) do
     t.text     "text"
     t.integer  "post_id"
     t.integer  "owner_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "posts", :force => true do |t|
@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20120910214616) do
   create_table "users", :force => true do |t|
     t.string  "username"
     t.string  "encrypted_password"
-    t.boolean "is_admin",     :default => false
+    t.boolean "is_admin",           :default => false
   end
 
 end

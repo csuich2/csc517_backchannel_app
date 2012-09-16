@@ -18,9 +18,10 @@
       <ul class="nav">
         <li><%= link_to :Home , :home, class: "nav_links" %> |</li>
         <li><%= link_to :Logout , :logout, class: "nav_links" %></li>
+        <li><%= link_to :Posts, :posts, class: "nav_links" %></li>
         <%if @current_user.is_admin?%>
         <li><%= link_to :Categories, :categories, class: "nav_links" %></li>
-        <li><%= link_to :NewCategory, :new_category, class: "nav_links" %></li>
+        <li><%= link_to :Users, :users, class: "nav_links" %></li>
         <%end%>
       </ul>
   <%end%>

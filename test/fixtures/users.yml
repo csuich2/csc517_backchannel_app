@@ -5,16 +5,19 @@
 # below each fixture, per the syntax in the comments below
 #
 user1:
+  id: 1
   username: 'test'
   encrypted_password: <%= Digest::SHA1.hexdigest('testing') %>
   is_admin: Yes
 
 user2:
+  id: 2
   username: 'test2'
   encrypted_password: <%= Digest::SHA1.hexdigest('testing') %>
   is_admin: No
 
 user3:
+  id: 3
   username: 'test3'
   encrypted_password: <%= Digest::SHA1.hexdigest('testing') %>
   is_admin: No

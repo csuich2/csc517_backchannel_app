@@ -1,11 +1,14 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
 
 category1:
+  id: 1
   name: 'Category 1'
 
 category2:
+  id: 2
   name: 'Category 2'
 
 category3:
+  id: 3
   name: 'Category 3'
 
