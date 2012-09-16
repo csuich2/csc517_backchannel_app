@@ -5,16 +5,14 @@ class PostVotesController < ApplicationController
   # POST /post_votes.json
   def create
     @post_vote = PostVote.new(params[:post_vote])
-    put @post_vote
-    @post_vote.owner_id = @current_user.id
-    @post_vote.post_id = 1
-    @post = Post.find(1)
+    @post_vote.user = @current_user
+    @post_vote.post = Post.find(params[:post_id])
 
     respond_to do |format|
       if @post_vote.save
-        format.html { redirect_to post_path(@post), notice: 'Post vote was successfully created.' }
+        format.html { redirect_to post_path(@post_vote.post), notice: 'Post vote was successfully created.' }
       else
-        format.html { redirect_to post_path(@post), notice: 'Post vote was successfully created.' }
+        format.html { redirect_to post_path(@post_vote.post), notice: 'Post vote was successfully created.' }
       end
     end
   end

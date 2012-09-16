@@ -16,7 +16,9 @@
 </p>
 
 <p>
-  <%= form_for([@post, @post.post_votes.build]) do |f| %>
+  <% @post_vote = PostVote.new() %>
+  <% @post_vote.post = @post %>
+  <%= form_for([@post, @post_vote]) do |f| %>
     <div class="actions">
       <%= f.submit %>
     </div>
