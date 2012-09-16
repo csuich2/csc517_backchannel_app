@@ -50,11 +50,11 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   def destroy
     @comment = Comment.find(params[:id])
-    @comment.destroy
     @post = Post.find(@comment.post_id)
 
     assert_is_owner_or_admin(@comment.owner_id)
 
+    @comment.destroy
     respond_to do |format|
       format.html { redirect_to post_path(@post), notice: 'Comment was successfully deleted.' }
     end

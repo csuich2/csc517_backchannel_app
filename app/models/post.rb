@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   belongs_to :category
   has_many :comments
+  has_many :post_votes
 
   attr_accessible :owner_id, :text, :title, :category_id
 

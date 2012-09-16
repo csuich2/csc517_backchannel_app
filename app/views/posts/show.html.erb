@@ -16,6 +16,14 @@
 </p>
 
 <p>
+  <%= form_for([@post, @post.post_votes.build]) do |f| %>
+    <div class="actions">
+      <%= f.submit %>
+    </div>
+  <% end %>
+</p>
+
+<p>
   <b>Add Comment:</b>
   <%= form_for([@post, @post.comments.build]) do |f| %>
     <div class="field">
@@ -25,7 +33,7 @@
     <div class="actions">
       <%= f.submit %>
     </div>
-<% end %>
+  <% end %>
 </p>
 
 <p>
