@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
   validates :username, :presence => true, :uniqueness => true, :length => { :in => 3..20 }
   validates :password, :confirmation => true
   validates_length_of :password, :in => 6..20, :on => :create
+  validates_presence_of :password_confirmation, :on => :create
 
   attr_accessible :username, :password, :password_confirmation, :is_admin
 

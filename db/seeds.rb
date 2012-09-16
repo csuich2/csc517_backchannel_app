@@ -10,12 +10,15 @@ require 'digest/sha1'
 
 users = User.create([ { :username => 'test',
                           :password => 'testing',
+                          :password_confirmation => 'testing',
                           :is_admin => true },
                       { :username => 'test2',
                           :password => 'testing',
+                          :password_confirmation => 'testing',
                           :is_admin => false },
                       { :username => 'test3',
                           :password => 'testing',
+                          :password_confirmation => 'testing',
                           :is_admin => false }
                     ])
 
@@ -24,10 +27,6 @@ categories = Category.create([ { :name => 'Category 1' },
                                { :name => 'Category 3' }
                              ])
 
-puts "owner id: "
-puts User.where("username = 'test2'").first.id
-puts "category id: "
-puts Category.where("name = 'Category 1'").first.id
 posts = Post.create({ :title => 'Test post 1',
                           :text => 'lakjsdlfajdslfajsdlfjasdlfkjalsdfk',
                           :owner_id => User.where("username = 'test2'").first.id,
