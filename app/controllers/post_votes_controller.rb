@@ -10,9 +10,9 @@ class PostVotesController < ApplicationController
 
     respond_to do |format|
       if @post_vote.save
-        format.html { redirect_to post_path(@post_vote.post), notice: 'Post vote was successfully created.' }
+        format.html { redirect_to post_path(@post_vote.post), :notice => 'Post vote was successfully created.' }
       else
-        format.html { redirect_to post_path(@post_vote.post), notice: 'Post vote was successfully created.' }
+        format.html { redirect_to post_path(@post_vote.post), :notice => 'Post vote was successfully created.' }
       end
     end
   end
@@ -27,7 +27,7 @@ class PostVotesController < ApplicationController
     @post_vote.destroy
 
     respond_to do |format|
-      format.html { redirect_to post_path(@post), notice: 'Vote was successfully deleted.' }
+      format.html { redirect_to post_path(@post), :notice => 'Vote was successfully deleted.' }
     end
   end
 
