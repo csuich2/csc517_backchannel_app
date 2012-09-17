@@ -1,2 +1,4 @@
 <h1>Sessions#home</h1>
 <p>Find me in app/views/sessions/home.html.erb</p>
+<% @posts = Post.all %>
+<%= render :template => '/posts/index' %>

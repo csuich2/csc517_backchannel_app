@@ -29,7 +29,7 @@ class CategoriesController < ApplicationController
         flash[:color] = 'valid'
         format.html { redirect_to :action => "index" }
       else
-        format.html { render action: "new" }
+        format.html { render :action => "new" }
       end
     end
   end

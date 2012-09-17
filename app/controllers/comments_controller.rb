@@ -23,9 +23,9 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to post_path(@comment.post), notice: 'Comment was successfully created.' }
+        format.html { redirect_to post_path(@comment.post), :notice => 'Comment was successfully created.' }
       else
-        format.html { redirect_to post_path(@comment.post), notice: 'An error occurred creating your comment' }
+        format.html { redirect_to post_path(@comment.post), :notice => 'An error occurred creating your comment' }
       end
     end
   end
@@ -39,9 +39,9 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
-        format.html { redirect_to post_path(@post), notice: 'Comment was successfully updated.' }
+        format.html { redirect_to post_path(@post), :notice => 'Comment was successfully updated.' }
       else
-        format.html { redirect_to post_path(@post), notice: 'An error occurred saving your comment' }
+        format.html { redirect_to post_path(@post), :notice => 'An error occurred saving your comment' }
       end
     end
   end
@@ -55,7 +55,7 @@ class CommentsController < ApplicationController
 
     @comment.destroy
     respond_to do |format|
-      format.html { redirect_to post_path(@post), notice: 'Comment was successfully deleted.' }
+      format.html { redirect_to post_path(@post), :notice => 'Comment was successfully deleted.' }
     end
   end
 end
