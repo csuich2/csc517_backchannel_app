@@ -6,38 +6,68 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 
-require 'digest/sha1'
+# Create 50 users
+for i in 1 .. 10
+  User.create(
+    {
+        :username => "test#{i}",
+        :password => 'testing',
+        :password_confirmation => 'testing',
+        :is_admin => (i <= 5 ? true : false),
+    }
+  )
+end
 
-users = User.create([ { :username => 'test',
-                          :password => 'testing',
-                          :password_confirmation => 'testing',
-                          :is_admin => true },
-                      { :username => 'test2',
-                          :password => 'testing',
-                          :password_confirmation => 'testing',
-                          :is_admin => false },
-                      { :username => 'test3',
-                          :password => 'testing',
-                          :password_confirmation => 'testing',
-                          :is_admin => false }
-                    ])
+# Create 10 categories
+for i in 1 .. 10
+  Category.create(
+      {
+          :name => "Category #{i}"
+      }
+  )
+end
 
-categories = Category.create([ { :name => 'Category 1' },
-                               { :name => 'Category 2' },
-                               { :name => 'Category 3' }
-                             ])
+# Create some posts by an admin and some for a non-admin
+for i in 1 .. 10
+  Post.create(
+      {
+        :title => "Admin post #{i}",
+        :text => 'asldkjfalsdkfjalknwelnrlqwerugoaernlw',
+        :user_id => User.where("username = 'test1'").first.id,
+        :category_id => Category.where("name = 'Category #{i}'").first.id,
+      }
+  )
+end
+for i in 1 .. 10
+  Post.create(
+      {
+          :title => "Non-admin post #{i}",
+          :text => 'qwnqhb qlwenljfdb aer taewlkfnqwe',
+          :user_id => User.where("username = 'test5'").first.id,
+          :category_id => Category.where("name = 'Category #{i}'").first.id,
+      }
+  )
+end
 
-posts = Post.create({ :title => 'Test post 1',
-                          :text => 'lakjsdlfajdslfajsdlfjasdlfkjalsdfk',
-                          :user_id => User.where("username = 'test2'").first.id,
-                          :category_id => Category.where("name = 'Category 1'").first.id }
-                    )
 
-
-comments = Comment.create([ { :text => 'Test comment from owner',
-                                :user_id => User.where("username = 'test2'").first.id,
-                                :post_id => Post.where("title = 'Test post 1'").first.id },
-                            { :text => 'Test comment from non-owner',
-                                :user_id => User.where("username = 'test3'").first.id,
-                                :post_id => Post.where("title = 'Test post 1'").first.id }
-                          ])
+# Create some comments on some of the posts
+for i in 1 .. 10
+  for j in 1 .. 2
+    Comment.create(
+        {
+            :text => "Test comment #{i}-#{j}",
+            :user_id => User.where("username = 'test#{i}'").first.id,
+            :post_id => Post.where("title = 'Admin post #{j}'").first.id,
+        }
+    )
+  end
+  for j in 1 .. 2
+    Comment.create(
+        {
+            :text => "Test comment #{i}-#{j}",
+            :user_id => User.where("username = 'test#{i}'").first.id,
+            :post_id => Post.where("title = 'Non-admin post #{j}'").first.id,
+        }
+    )
+  end
+end

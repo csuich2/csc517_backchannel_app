@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   before_filter :save_login_state, :only => [:new, :create]
-  before_filter :authenticate_user, :only => [:index, :destroy, :make_admin, :revoke_admin]
-  before_filter :assert_is_admin_user, :only => [:index, :destroy, :make_admin, :revoke_admin]
+  before_filter :authenticate_user, :only => [:index, :destroy, :make_admin, :revoke_admin, :votes]
+  before_filter :assert_is_admin_user, :only => [:index, :destroy, :make_admin, :revoke_admin, :votes]
 
   # GET /users
   def index
@@ -69,6 +69,13 @@ class UsersController < ApplicationController
     end
 
     redirect_to users_url
+  end
+
+  # POST /users/votes/1
+  def votes
+    @user = User.find(params[:id])
+
+    render "votes"
   end
 end
 
