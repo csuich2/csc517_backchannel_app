@@ -5,6 +5,8 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
 
+    session[:search_url] = nil
+
     # TODO fancy sorting logic
     # TODO sort by: this timestamp && latest comment timestamp
 
@@ -78,8 +80,31 @@ class PostsController < ApplicationController
     @post.destroy
 
     respond_to do |format|
-      format.html { redirect_to posts_url }
+      format.html {
+        unless session[:search_url]
+          redirect_to posts_url
+        else
+          redirect_to session[:search_url]
+        end
+      }
     end
   end
 
+  def search_by_category
+    @posts = Category.search(params[:search][:category_id])
+    session[:search_url] = request.url
+    render "search_results"
+  end
+
+  def search_by_content
+    @posts = Post.search(params[:search][:search])
+    session[:search_url] = request.url
+    render "search_results"
+  end
+
+  def search_by_user
+    @posts = User.search(params[:search][:search])
+    session[:search_url] = request.url
+    render "search_results"
+  end
 end

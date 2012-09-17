@@ -1,0 +1,27 @@
+<h1>User's votes</h1>
+<h2>User's posts</h2>
+<table>
+  <tr>
+    <th>Post title</th>
+    <th># of votes</th>
+  </tr>
+<% @user.posts.each do |p| %>
+  <tr>
+    <th><%= p.title %></th>
+    <th><%= p.post_votes.count %></th>
+  </tr>
+<% end %>
+</table>
+<h2>User's comments</h2>
+<table>
+  <tr>
+    <th>Comment text</th>
+    <th># of votes</th>
+  </tr>
+  <% @user.comments.each do |c| %>
+    <tr>
+      <th><%= c.text %></th>
+      <th><%= c.comment_votes.count %></th>
+    </tr>
+  <% end %>
+</table>

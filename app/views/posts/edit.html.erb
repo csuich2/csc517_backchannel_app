@@ -3,4 +3,8 @@
 <%= render 'form' %>
 
 <%= link_to 'Show', @post %> |
-<%= link_to 'Back', posts_path %>
+<% unless session[:search_url] %>
+    <%= link_to 'Back', posts_path %>
+<% else %>
+    <%= link_to 'Back to results', session[:search_url] %>
+<% end %>

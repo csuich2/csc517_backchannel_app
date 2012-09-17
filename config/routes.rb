@@ -22,6 +22,11 @@ BackchannelApp::Application.routes.draw do
   match "/users/revoke_admin/:id", :to => 'users#revoke_admin'
   match "/users/make_admin/:id", :to => 'users#make_admin'
 
+  match "search", :to => 'posts#search'
+  match "/search_by_category", :to => 'posts#search_by_category'
+  match "/search_by_user", :to => 'posts#search_by_user'
+  match "/search_by_content", :to => 'posts#search_by_content'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

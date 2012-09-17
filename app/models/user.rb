@@ -41,4 +41,9 @@ class User < ActiveRecord::Base
     self.password = nil
   end
 
+  def self.search(search)
+    search_conditions = "%#{search}%"
+    Post.all(:conditions => ['user_id in (SELECT id FROM users where username like ?)', search_conditions])
+  end
+
 end
