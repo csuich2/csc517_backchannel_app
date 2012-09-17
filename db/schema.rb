@@ -25,13 +25,6 @@ ActiveRecord::Schema.define(:version => 20120910214616) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "post_votes", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "post_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "posts", :force => true do |t|
     t.string   "title"
     t.text     "text"
