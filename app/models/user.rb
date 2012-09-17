@@ -3,7 +3,7 @@ require 'digest/sha1'
 class User < ActiveRecord::Base
   has_many :comments
   has_many :posts
-  has_many :post_votes
+  has_many :post_votes, :dependent => :delete_all, :validate => :false
 
   before_save :encrypt_password
   after_save :clear_password
@@ -39,4 +39,5 @@ class User < ActiveRecord::Base
   def clear_password
     self.password = nil
   end
+
 end

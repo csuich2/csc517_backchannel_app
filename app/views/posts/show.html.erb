@@ -18,10 +18,17 @@
 <p>
   <% @post_vote = PostVote.new() %>
   <% @post_vote.post = @post %>
-  <%= form_for([@post, @post_vote]) do |f| %>
-    <div class="actions">
-      <%= f.submit %>
-    </div>
+
+  <% @post_votes = @post.post_votes.where(:post_id => @post.id) %>
+  <% if @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id) %>
+      You and <% (@post_votes.size-1) %> users have voted on this.
+  <% else %>
+      <% @post_votes.size %> users have voted on this.
+      <%= form_for([@post, @post_vote]) do |f| %>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      <% end %>
   <% end %>
 </p>
 

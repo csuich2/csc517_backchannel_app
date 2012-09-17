@@ -31,11 +31,4 @@ class PostVotesController < ApplicationController
     end
   end
 
-  def getVoteCount
-    @post = Post.find(params[:id])
-
-  end
-
-  def hasVoted
-  end
 end

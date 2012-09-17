@@ -81,4 +81,5 @@ class PostsController < ApplicationController
       format.html { redirect_to posts_url }
     end
   end
+
 end
