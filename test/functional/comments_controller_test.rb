@@ -2,41 +2,26 @@ require 'test_helper'
 
 class CommentsControllerTest < ActionController::TestCase
   setup do
-    @comment = comments(:one)
-  end
+    @user = users(:user1)
+    @comment = comments(:comment1)
 
-  test "should get index" do
-    get :index
-    assert_response :success
-    assert_not_nil assigns(:comments)
-  end
-
-  test "should get new" do
-    get :new
-    assert_response :success
+    @current_user = @user
+    session[:user_id] = @current_user.id
   end
 
   test "should create comment" do
     assert_difference('Comment.count') do
-      post :create, comment: { owner_id: @comment.owner_id, post_id: @comment.post_id, text: @comment.text }
+      post :create, { comment: { user_id: @comment.user.id, text: @comment.text }, post_id: @comment.post.id }
     end
 
-    assert_redirected_to comment_path(assigns(:comment))
-  end
-
-  test "should show comment" do
-    get :show, id: @comment
-    assert_response :success
-  end
-
-  test "should get edit" do
-    get :edit, id: @comment
-    assert_response :success
+    assert assigns :comment
+    assert_redirected_to post_path(@comment.post)
   end
 
   test "should update comment" do
-    put :update, id: @comment, comment: { owner_id: @comment.owner_id, post_id: @comment.post_id, text: @comment.text }
-    assert_redirected_to comment_path(assigns(:comment))
+    put :update, id: @comment, comment: { user_id: @comment.user.id, post_id: @comment.post.id,  text: @comment.text }
+    assert assigns(:comment)
+    assert_redirected_to post_path(@comment.post)
   end
 
   test "should destroy comment" do
@@ -44,6 +29,6 @@ class CommentsControllerTest < ActionController::TestCase
       delete :destroy, id: @comment
     end
 
-    assert_redirected_to comments_path
+    assert_redirected_to post_path(@comment.post)
   end
 end

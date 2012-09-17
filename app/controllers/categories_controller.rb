@@ -25,7 +25,9 @@ class CategoriesController < ApplicationController
 
     respond_to do |format|
       if @category.save
-        format.html { redirect_to :action => "index", notice: 'Category was successfully created.' }
+        flash[:notice] = 'Category was successfully created.'
+        flash[:color] = 'valid'
+        format.html { redirect_to :action => "index" }
       else
         format.html { render action: "new" }
       end
