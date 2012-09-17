@@ -58,4 +58,9 @@ class CommentsController < ApplicationController
       format.html { redirect_to post_path(@post), :notice => 'Comment was successfully deleted.' }
     end
   end
+
+  def who_voted
+    @comment = Comment.find(params[:id])
+    render "who_voted"
+  end
 end

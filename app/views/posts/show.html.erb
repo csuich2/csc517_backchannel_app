@@ -21,9 +21,9 @@
 
   <% @post_votes = @post.post_votes.where(:post_id => @post.id) %>
   <% if @post.user_id == @current_user.id %>
-      <%= @post_votes.size %> other users have voted on this.
+    <%= who_voted_post_link @post_votes.size, "#{@post_votes.size} other users", @post.id %> have voted on this.
   <% elsif @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
-      You and <%= (@post_votes.size-1) %> users have voted on this.
+      You and <%= who_voted_post_link @post_votes.size-1, "#{@post_votes.size-1} other users", @post.id %> have voted on this.
   <% else %>
       <%= @post_votes.size %> other users have voted on this.
       <%= form_for([@post, @post_vote]) do |f| %>
@@ -66,9 +66,9 @@
           <% end %>
         <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
         <% if c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
-            You and <%= (@comment_votes.size-1) %> other users have voted on this comment.
+          You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this comment.
         <% else %>
-            <%= @comment_votes.size %> other users have voted on this comment.
+          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this comment.
         <% end %>
     <% else %>
         <p><%= c.text %> (<%= c.user.username %>)</p>
@@ -77,16 +77,16 @@
 
         <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
         <% if c.user_id == @current_user.id %>
-            <%= @comment_votes.size %> other users have voted on this.
+          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
         <% elsif c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
-            You and <%= (@comment_votes.size-1) %> users have voted on this.
+            You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this.
         <% else %>
-            <%= @comment_votes.size %> other users have voted on this.
-            <%= form_for([c, c.comment_votes.build]) do |f| %>
-                <div class="actions">
-                  <%= f.submit %>
-                </div>
-            <% end %>
+          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
+          <%= form_for([c, c.comment_votes.build]) do |f| %>
+              <div class="actions">
+                <%= f.submit %>
+              </div>
+          <% end %>
         <% end %>
     <% end %>
   <% end %>
