@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   has_many :comments
   has_many :posts
   has_many :post_votes, :dependent => :delete_all, :validate => :false
+  has_many :comment_votes, :dependent => :delete_all, :validate => :false
 
   before_save :encrypt_password
   after_save :clear_password
