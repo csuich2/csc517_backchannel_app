@@ -5,6 +5,8 @@ class PostsController < ApplicationController
   def index
     @posts = Post.all
 
+    session[:search_url] = nil
+
     # TODO fancy sorting logic
     # TODO sort by: this timestamp && latest comment timestamp
 
