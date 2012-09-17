@@ -13,18 +13,18 @@ class CategoryTest < ActiveSupport::TestCase
   test "validity" do
     # Missing name
     @category = Category.new()
-    assert_equal @category.valid?, false
+    assert_equal false, @category.valid?
 
-    # Name too name
+    # Name too short
     @category = Category.new(:name => 'a')
-    assert_equal @category.valid?, false
+    assert_equal false, @category.valid?
 
-    # Name too name
+    # Name too long
     @category = Category.new(:name => 'abcde12345abcde12345abcde')
-    assert_equal @category.valid?, false
+    assert_equal false, @category.valid?
 
     # Valid category
     @category = Category.new(:name => 'New category')
-    assert_equal @category.valid?, true
+    assert_equal true, @category.valid?
   end
 end

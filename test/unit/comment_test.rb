@@ -16,11 +16,19 @@ class CommentTest < ActiveSupport::TestCase
 
   test "validity" do
     # Missing text
-    @comment = Comment.new(:owner_id => 1, :post_id => 1)
-    assert_equal @comment.valid?, false
+    @comment = Comment.new(:user_id => 1, :post_id => 1)
+    assert_equal false, @comment.valid?
+
+    # Missing user
+    @comment = Comment.new(:text => 'Comment text', :post_id => 1)
+    assert_equal false, @comment.valid?
+
+    # Missing post
+    @comment = Comment.new(:text => 'Comment text', :user_id => 1)
+    assert_equal false, @comment.valid?
 
     # Valid comment
-    @comment = Comment.new(:text => 'New comment text', :owner_id => 1, :post_id => 1)
-    assert_equal @comment.valid?, true
+    @comment = Comment.new(:text => 'New comment text', :user_id => 1, :post_id => 1)
+    assert_equal true, @comment.valid?
   end
 end

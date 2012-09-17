@@ -36,42 +36,42 @@ class UserTest < ActiveSupport::TestCase
   test "validity" do
     # Missing username
     @user = User.new(:password => 'testing', :password_confirmation => 'testing')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Missing password
     @user = User.new(:username => 'a', :password_confirmation => 'testing')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Missing password confirmation
     @user = User.new(:username => 'a', :password => 'testing')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Username too short
     @user = User.new(:username => 'a', :password => 'testing', :password_confirmation => 'testing')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Username already exists
     @user = User.new(:username => 'test', :password => 'testing', :password_confirmation => 'testing')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Username too long
     @user = User.new(:username => 'abcde12345abcde12345abcde12345abcde', :password => 'testing', :password_confirmation => 'testing')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Passwords do not match
     @user = User.new(:username => 'user', :password => 'testing', :password_confirmation => 'testing2')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Password too short
     @user = User.new(:username => 'user', :password => 'test', :password_confirmation => 'test')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Password too long
     @user = User.new(:username => 'user2', :password => 'abcde12345abcde12345abcde12345abcde', :password_confirmation => 'abcde12345abcde12345abcde12345abcde')
-    assert_equal @user.valid?, false
+    assert_equal false, @user.valid?
 
     # Valid
     @user = User.new(:username => 'new_user', :password => 'testing', :password_confirmation => 'testing')
-    assert_equal @user.valid?, true
+    assert_equal true, @user.valid?
   end
 end

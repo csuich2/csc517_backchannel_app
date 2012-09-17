@@ -13,31 +13,31 @@ class PostTest < ActiveSupport::TestCase
 
   test "validity" do
     # Missing title
-    @post = Post.new(:text => 'Test post', :category_id => 1)
-    assert_equal @post.valid?, false
+    @post = Post.new(:text => 'Test post', :category_id => 1, :user_id => 1)
+    assert_equal false, @post.valid?
 
     # Title too short
-    @post = Post.new(:title => 'a', :text => 'Test post', :category_id => 1)
-    assert_equal @post.valid?, false
+    @post = Post.new(:title => 'a', :text => 'Test post', :category_id => 1, :user_id => 1)
+    assert_equal false, @post.valid?
 
     # Title too long
-    @post = Post.new(:title => 'abcde12345abcde12345abcde' , :text => 'Test post', :category_id => 1)
-    assert_equal @post.valid?, false
+    @post = Post.new(:title => 'abcde12345abcde12345abcde' , :text => 'Test post', :category_id => 1, :user_id => 1)
+    assert_equal false, @post.valid?
 
     # Missing text
-    @post = Post.new(:title => 'New post title', :category_id => 1)
-    assert_equal @post.valid?, false
+    @post = Post.new(:title => 'New post title', :category_id => 1, :user_id => 1)
+    assert_equal false, @post.valid?
 
     # Missing category_id
-    @post = Post.new(:title => 'New post title', :text => 'Test post')
-    assert_equal @post.valid?, false
+    @post = Post.new(:title => 'New post title', :text => 'Test post', :user_id => 1)
+    assert_equal false, @post.valid?
 
-    # Invalid category_id
-    @post = Post.new(:title => 'New post title', :text => 'Test post', :category_id => 100)
-    assert_equal @post.valid?, false
+    # Missing user_id
+    @post = Post.new(:title => 'New post title', :text => 'Test post', :category_id => 1)
+    assert_equal false, @post.valid?
 
     # Valid post
-    @post = Post.new(:title => 'New post title', :text => 'Test post', :category_id => 1)
-    assert_equal @post.valid?, true
+    @post = Post.new(:title => 'New post title', :text => 'Test post', :category_id => 1, :user_id => 1)
+    assert_equal true, @post.valid?
   end
 end
