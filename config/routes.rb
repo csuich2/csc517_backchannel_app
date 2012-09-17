@@ -1,10 +1,14 @@
 BackchannelApp::Application.routes.draw do
-  resources :comment_votes
 
   resources :posts do
     resources :comments
+    resources :comment_votes
     resources :post_votes
   end
+  resources :comments do
+    resources :comment_votes
+  end
+  resources :comment_votes
   resources :categories
   resources :users
 

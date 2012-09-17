@@ -20,7 +20,9 @@
   <% @post_vote.post = @post %>
 
   <% @post_votes = @post.post_votes.where(:post_id => @post.id) %>
-  <% if @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
+  <% if @post.user_id == @current_user.id %>
+      <%= @post_votes.size %> other users have voted on this.
+  <% elsif @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
       You and <%= (@post_votes.size-1) %> users have voted on this.
   <% else %>
       <%= @post_votes.size %> other users have voted on this.
@@ -49,6 +51,9 @@
   <b>Comments:</b>
   <% Comment.order("updated_at DESC").where(["post_id = ?", @post.id]).each do |c| %>
     <% if c.user.id == @current_user.id %>
+          <% @comment_vote = CommentVote.new() %>
+          <% @comment_vote.comment = c %>
+          <% @comment_vote.user = @current_user %>
           <%= form_for([@post, c]) do |f| %>
             <div class="field">
               <%= f.label :text %><br />
@@ -58,9 +63,31 @@
               <%= f.submit %>
             </div>
             <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
+          <% end %>
+        <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
+        <% if c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
+            You and <%= (@comment_votes.size-1) %> other users have voted on this comment.
+        <% else %>
+            <%= @comment_votes.size %> other users have voted on this comment.
         <% end %>
     <% else %>
         <p><%= c.text %> (<%= c.user.username %>)</p>
+        <% @comment_vote = CommentVote.new() %>
+        <% @comment_vote.comment = c %>
+
+        <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
+        <% if c.user_id == @current_user.id %>
+            <%= @comment_votes.size %> other users have voted on this.
+        <% elsif c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
+            You and <%= (@comment_votes.size-1) %> users have voted on this.
+        <% else %>
+            <%= @comment_votes.size %> other users have voted on this.
+            <%= form_for([c, c.comment_votes.build]) do |f| %>
+                <div class="actions">
+                  <%= f.submit %>
+                </div>
+            <% end %>
+        <% end %>
     <% end %>
   <% end %>
 </p>
