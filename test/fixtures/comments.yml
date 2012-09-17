@@ -4,10 +4,10 @@ comment1:
   id: 1
   text: 'Test comment from owner'
   post_id: 1
-  owner_id: 2
+  user_id: 2
 
 comment2:
   id: 2
   text: 'Test comment from non-owner'
   post_id: 1
-  owner_id: 3
+  user_id: 3

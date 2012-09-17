@@ -1,13 +1,12 @@
 class Post < ActiveRecord::Base
   belongs_to :category
+  belongs_to :user
   has_many :comments
   has_many :post_votes
 
-  attr_accessible :owner_id, :text, :title, :category_id
+  attr_accessible :text, :title
+  attr_accessible :category_id, :user_id
 
   validates :title, :presence => true, :length => { :in => 3..20 }
   validates :text,  :presence => true
-  validates :category_id, :presence => true#, :inclusion => { :in => Category.all(:select => 'id'),
-                                            #                 :message => "%{value} is not a valid category id." }
-
 end

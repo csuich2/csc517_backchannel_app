@@ -1,7 +1,9 @@
 require 'digest/sha1'
 
 class User < ActiveRecord::Base
-  attr_accessor :password
+  has_many :comments
+  has_many :posts
+  has_many :post_votes
 
   before_save :encrypt_password
   after_save :clear_password
@@ -11,6 +13,7 @@ class User < ActiveRecord::Base
   validates_length_of :password, :in => 6..20, :on => :create
   validates_presence_of :password_confirmation, :on => :create
 
+  attr_accessor :password
   attr_accessible :username, :password, :password_confirmation, :is_admin
 
   def self.authenticate(username="", login_password="")

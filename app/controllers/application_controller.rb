@@ -22,8 +22,9 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def assert_is_owner_or_admin(owner_id)
-    if @current_user.id == owner_id || @current_user.is_admin
+  def assert_is_owner_or_admin(owner)
+    # By owner, we mean the user who owns some item
+    if @current_user.id == owner.id || @current_user.is_admin
       return true
     else
       flash[:notice] = "You are not authorized to view that page."

@@ -22,7 +22,7 @@ class PostVotesController < ApplicationController
   def destroy
     @post_vote = PostVote.find(params[:id])
 
-    assert_is_owner_or_admin(@post_vote.owner_id)
+    assert_is_owner_or_admin(@post_vote.user)
 
     @post_vote.destroy
 

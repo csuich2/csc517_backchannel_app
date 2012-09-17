@@ -29,15 +29,15 @@ categories = Category.create([ { :name => 'Category 1' },
 
 posts = Post.create({ :title => 'Test post 1',
                           :text => 'lakjsdlfajdslfajsdlfjasdlfkjalsdfk',
-                          :owner_id => User.where("username = 'test2'").first.id,
+                          :user_id => User.where("username = 'test2'").first.id,
                           :category_id => Category.where("name = 'Category 1'").first.id }
                     )
 
 
 comments = Comment.create([ { :text => 'Test comment from owner',
-                                :owner_id => User.where("username = 'test2'").first.id,
+                                :user_id => User.where("username = 'test2'").first.id,
                                 :post_id => Post.where("title = 'Test post 1'").first.id },
                             { :text => 'Test comment from non-owner',
-                                :owner_id => User.where("username = 'test3'").first.id,
+                                :user_id => User.where("username = 'test3'").first.id,
                                 :post_id => Post.where("title = 'Test post 1'").first.id }
                           ])

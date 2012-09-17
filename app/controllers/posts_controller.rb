@@ -35,7 +35,7 @@ class PostsController < ApplicationController
   def edit
     @post = Post.find(params[:id])
 
-    assert_is_owner_or_admin(@post.owner_id)
+    assert_is_owner_or_admin(@post.user)
   end
 
   # POST /posts
@@ -43,7 +43,7 @@ class PostsController < ApplicationController
     @post = Post.new(params[:post])
 
     # TODO can we move this into the post object? When I tried, @current_user was nil in the before_save callback
-    @post.owner_id = @current_user.id
+    @post.user = @current_user
 
     respond_to do |format|
       if @post.save
@@ -58,7 +58,7 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
 
-    assert_is_owner_or_admin(@post.owner_id)
+    assert_is_owner_or_admin(@post.user)
 
     respond_to do |format|
       if @post.update_attributes(params[:post])
@@ -73,7 +73,7 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
 
-    assert_is_owner_or_admin(@post.owner_id)
+    assert_is_owner_or_admin(@post.user)
 
     @post.destroy
 

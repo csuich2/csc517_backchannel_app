@@ -18,15 +18,14 @@ class CommentsController < ApplicationController
   # POST /comments
   def create
     @comment = Comment.new(params[:comment])
-    @comment.owner_id = @current_user.id
-    @comment.post_id = params[:post_id]
-    @post = Post.find(params[:post_id])
+    @comment.user = @current_user
+    @comment.post = Post.find(params[:post_id])
 
     respond_to do |format|
       if @comment.save
-        format.html { redirect_to post_path(@post), notice: 'Comment was successfully created.' }
+        format.html { redirect_to post_path(@comment.post), notice: 'Comment was successfully created.' }
       else
-        format.html { redirect_to post_path(@post), notice: 'An error occurred creating your comment' }
+        format.html { redirect_to post_path(@comment.post), notice: 'An error occurred creating your comment' }
       end
     end
   end
@@ -34,9 +33,9 @@ class CommentsController < ApplicationController
   # PUT /comments/1
   def update
     @comment = Comment.find(params[:id])
-    @post = Post.find(@comment.post_id)
+    @post = @comment.post
 
-    assert_is_owner_or_admin(@comment.owner_id)
+    assert_is_owner_or_admin(@comment.user)
 
     respond_to do |format|
       if @comment.update_attributes(params[:comment])
@@ -50,9 +49,9 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   def destroy
     @comment = Comment.find(params[:id])
-    @post = Post.find(@comment.post_id)
+    @post = @comment.post
 
-    assert_is_owner_or_admin(@comment.owner_id)
+    assert_is_owner_or_admin(@comment.user)
 
     @comment.destroy
     respond_to do |format|

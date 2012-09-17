@@ -12,7 +12,7 @@
 
 <p>
   <b>Poster:</b>
-  <%= User.find(@post.owner_id).username %>
+  <%= @post.user.username %>
 </p>
 
 <p>
@@ -41,7 +41,7 @@
 <p>
   <b>Comments:</b>
   <% Comment.where(["post_id = ?", @post.id]).each do |c| %>
-    <% if c.owner_id == @current_user.id %>
+    <% if c.user.id == @current_user.id %>
           <%= form_for([@post, c]) do |f| %>
             <div class="field">
               <%= f.label :text %><br />
@@ -53,7 +53,7 @@
             <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
         <% end %>
     <% else %>
-        <p><%= c.text %> (<%= User.find(c.owner_id).username %>)</p>
+        <p><%= c.text %> (<%= c.user.username %>)</p>
     <% end %>
   <% end %>
 </p>
