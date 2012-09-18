@@ -11,3 +11,20 @@
  *= require_self
  *= require_tree .
  */
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.box {
+    border: 1px solid black;
+    padding: 5px;
+    margin: 5px;
+}
+
+.vote_button {
+    background:url('thumb_up.png') no-repeat;
+    border: none;
+    width: 32px;
+    height: 32px;
+}

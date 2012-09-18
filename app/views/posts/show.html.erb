@@ -1,40 +1,42 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <b>Title:</b>
-  <%= @post.title %>
-</p>
+<div class='box post_info'>
+  <p>
+    <b>Title:</b>
+    <%= @post.title %>
+  </p>
 
-<p>
-  <b>Text:</b>
-  <%= @post.text %>
-</p>
+  <p>
+    <b>Text:</b>
+    <%= @post.text %>
+  </p>
 
-<p>
-  <b>Poster:</b>
-  <%= @post.user.username %>
-</p>
+  <p>
+    <b>Poster:</b>
+    <%= @post.user.username %>
+  </p>
 
-<p>
-  <% @post_vote = PostVote.new() %>
-  <% @post_vote.post = @post %>
+  <p>
+    <% @post_vote = PostVote.new() %>
+    <% @post_vote.post = @post %>
 
-  <% @post_votes = @post.post_votes.where(:post_id => @post.id) %>
-  <% if @post.user_id == @current_user.id %>
-    <%= who_voted_post_link @post_votes.size, "#{@post_votes.size} other users", @post.id %> have voted on this.
-  <% elsif @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
+    <% @post_votes = @post.post_votes.where(:post_id => @post.id) %>
+    <% if @post.user_id == @current_user.id %>
+      <%= who_voted_post_link @post_votes.size, "#{@post_votes.size} other users", @post.id %> have voted on this.
+    <% elsif @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
       You and <%= who_voted_post_link @post_votes.size-1, "#{@post_votes.size-1} other users", @post.id %> have voted on this.
-  <% else %>
+    <% else %>
       <%= @post_votes.size %> other users have voted on this.
       <%= form_for([@post, @post_vote]) do |f| %>
         <div class="actions">
           <%= f.submit %>
         </div>
       <% end %>
-  <% end %>
-</p>
+    <% end %>
+  </p>
+</div>
 
-<p>
+<div class='box add_comment'>
   <b>Add Comment:</b>
   <%= form_for([@post, @post.comments.build]) do |f| %>
     <div class="field">
@@ -45,52 +47,54 @@
       <%= f.submit %>
     </div>
   <% end %>
-</p>
+</div>
 
-<p>
+<div class='box comments'>
   <b>Comments:</b>
   <% Comment.order("updated_at DESC").where(["post_id = ?", @post.id]).each do |c| %>
-    <% if c.user.id == @current_user.id %>
-          <% @comment_vote = CommentVote.new() %>
-          <% @comment_vote.comment = c %>
-          <% @comment_vote.user = @current_user %>
-          <%= form_for([@post, c]) do |f| %>
-            <div class="field">
-              <%= f.label :text %><br />
-              <%= f.text_area :text, :rows => 3 %>
-            </div>
-            <div class="actions">
-              <%= f.submit %>
-            </div>
-            <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
-          <% end %>
-        <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
-        <% if c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
-          You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this comment.
-        <% else %>
-          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this comment.
-        <% end %>
-    <% else %>
-        <p><%= c.text %> (<%= c.user.username %>)</p>
-        <% @comment_vote = CommentVote.new() %>
-        <% @comment_vote.comment = c %>
-
-        <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
-        <% if c.user_id == @current_user.id %>
-          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
-        <% elsif c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
-            You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this.
-        <% else %>
-          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
-          <%= form_for([c, c.comment_votes.build]) do |f| %>
+    <div class='box comment'>
+      <% # If the current user is the comment author %>
+      <% if c.user.id == @current_user.id %>
+            <% # Create the form for editing this comment %>
+            <% @comment_vote = CommentVote.new() %>
+            <% @comment_vote.comment = c %>
+            <% @comment_vote.user = @current_user %>
+            <%= form_for([@post, c]) do |f| %>
+              <div class="field">
+                <%= f.label :text %><br />
+                <%= f.text_area :text, :rows => 3 %>
+              </div>
               <div class="actions">
                 <%= f.submit %>
               </div>
+              <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
+            <% end %>
+          <% # Display how many people voted for this comment %>
+          <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
+          <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this comment.
+      <% else %>
+          <% # This is not the current user's comment %>
+          <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
+          <% if c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
+              You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this.
+          <% else %>
+            <p><%= c.text %> (<%= c.user.username %>)</p>
+            <% @comment_vote = CommentVote.new() %>
+            <% @comment_vote.comment = c %>
+            <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
+            <%= form_for([c, c.comment_votes.build]) do |f| %>
+                <div class="actions">
+                  <%= f.submit "", :class => 'vote_button' %>
+                </div>
+            <% end %>
           <% end %>
-        <% end %>
-    <% end %>
+          <% if @current_user.is_admin %>
+            <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
+          <% end %>
+      <% end %>
+    </div>
   <% end %>
-</p>
+</div>
 
 
 <%= link_to 'Edit', edit_post_path(@post) %>
