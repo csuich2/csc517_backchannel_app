@@ -1,7 +1,7 @@
 class Post < ActiveRecord::Base
   belongs_to :category
   belongs_to :user
-  has_many :comments
+  has_many :comments, :dependent => :delete_all, :validate => :false
   has_many :post_votes, :dependent => :delete_all, :validate => :false
 
   attr_accessible :text, :title

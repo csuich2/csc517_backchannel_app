@@ -1,5 +1,5 @@
 class Category < ActiveRecord::Base
-  has_many :posts
+  has_many :posts, :dependent => :delete_all, :validate => :false
 
   attr_accessible :name
 
