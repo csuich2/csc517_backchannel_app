@@ -5,21 +5,21 @@
     <th>Username</th>
     <th>Is admin?</th>
     <th></th>
-    <th></th>
-    <th></th>
   </tr>
 
   <% @users.each do |user| %>
       <tr>
         <td><%= user.username %></td>
         <td><%= user.is_admin? %></td>
+        <td>
         <% if user.is_admin?  %>
-          <td><%= link_to 'Revoke admin', "/users/revoke_admin/#{user.id}" %></td>
+          <%= link_to 'Revoke admin', "/users/revoke_admin/#{user.id}" %>
         <% else %>
-          <td><%= link_to 'Make admin', "/users/make_admin/#{user.id}" %></td>
+          <%= link_to 'Make admin', "/users/make_admin/#{user.id}" %>
         <% end %>
-        <td><%= link_to 'Delete', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %></td>
-        <td><%= link_to 'Vote report', :controller => :users, :action => :votes, :id => user %></td>
+        <%= link_to 'Delete', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
+        <%= link_to 'Vote report', :controller => :users, :action => :votes, :id => user %>
+        </td>
       </tr>
   <% end %>
 </table>
