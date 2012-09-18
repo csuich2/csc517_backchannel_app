@@ -107,4 +107,10 @@ class PostsController < ApplicationController
     session[:search_url] = request.url
     render "search_results"
   end
+
+  def who_voted
+    @post = Post.find(params[:id])
+
+    render "who_voted"
+  end
 end

@@ -1,0 +1,4 @@
+<h2>People who voted:</h2>
+<% @post.post_votes.each do |pv| %>
+  <%= User.find(pv.user_id).username %><br/>
+<% end %>

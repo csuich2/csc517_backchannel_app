@@ -1,0 +1,4 @@
+<h2>People who voted:</h2>
+<% @comment.comment_votes.each do |cv| %>
+  <%= User.find(cv.user_id).username %><br/>
+<% end %>
