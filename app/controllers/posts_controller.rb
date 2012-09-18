@@ -10,6 +10,9 @@ class PostsController < ApplicationController
     # TODO fancy sorting logic
     # TODO sort by: this timestamp && latest comment timestamp
 
+    @posts.sort! {|x,y| x.latest_timestamp <=> y.latest_timestamp}
+    @posts.reverse!
+
     respond_to do |format|
       format.html # index.html.erb
     end

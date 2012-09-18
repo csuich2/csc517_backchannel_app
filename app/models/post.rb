@@ -12,21 +12,23 @@ class Post < ActiveRecord::Base
   validates :category_id, :presence => true
   validates :user_id, :presence => true
 
+
   def self.search(search)
     search_conditions = "%#{search}%"
     all(:conditions => ['title like ? OR text like ?', search_conditions, search_conditions])
   end
 
   def latest_timestamp
-    comment = Comment.order("updated_at").find_all_by_post_id(self.id, :limit => 1).first
+    comment = Comment.order("updated_at DESC").find_all_by_post_id(self.id, :limit => 1).first
     comment_timestamp = comment ? comment.updated_at : Time.at(0)
 
-    post_vote = PostVote.order("updated_at").find_all_by_post_id(self.id, :limit => 1).first
+    post_vote = PostVote.order("updated_at DESC").find_all_by_post_id(self.id, :limit => 1).first
     post_vote_timestamp = post_vote ? post_vote.updated_at : Time.at(0)
 
-    comment_vote = CommentVote.order("updated_at").all(:conditions => "comment_id in (SELECT id FROM comments WHERE post_id = #{self.id})").first
+    comment_vote = CommentVote.order("updated_at DESC").all(:conditions => "comment_id in (SELECT id FROM comments WHERE post_id = #{self.id})").first
     comment_vote_timestamp = comment_vote ? comment_vote.updated_at : Time.at(0)
 
     [self.updated_at, comment_timestamp, post_vote_timestamp, comment_vote_timestamp].max { |a, b| a <=> b }
   end
+
 end
