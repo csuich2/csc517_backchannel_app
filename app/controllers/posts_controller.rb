@@ -7,9 +7,6 @@ class PostsController < ApplicationController
 
     session[:search_url] = nil
 
-    # TODO fancy sorting logic
-    # TODO sort by: this timestamp && latest comment timestamp
-
     @posts.sort! {|x,y| x.latest_timestamp <=> y.latest_timestamp}
     @posts.reverse!
 
@@ -21,6 +18,10 @@ class PostsController < ApplicationController
   # GET /posts/1
   def show
     @post = Post.find(params[:id])
+
+    @comments = Comment.find_all_by_post_id(@post.id)
+    @comments.sort! {|x,y| x.latest_timestamp <=> y.latest_timestamp}
+    @comments.reverse!
 
     respond_to do |format|
       format.html # show.html.erb

@@ -26,6 +26,17 @@ class SessionsController < ApplicationController
     redirect_to :action => 'login'
   end
 
-  #def home
-  #end
+  def home
+    @posts = Post.all
+
+    session[:search_url] = nil
+
+    # Sorting the Posts in descending order. The function latest_timestamp is present in post.rb
+    @posts.sort! {|x,y| x.latest_timestamp <=> y.latest_timestamp}
+    @posts.reverse!
+
+    respond_to do |format|
+      format.html # index.html.erb
+    end
+  end
 end

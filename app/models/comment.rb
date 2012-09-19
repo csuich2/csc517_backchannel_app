@@ -15,4 +15,12 @@ class Comment < ActiveRecord::Base
   def log_errors
     Rails.logger.debug self.errors.full_messages.join("\n")
   end
+
+  def latest_timestamp
+
+    comment_vote = CommentVote.order("updated_at DESC").all(:conditions => "comment_id in (SELECT id FROM comments WHERE id = #{self.id})").first
+    comment_vote_timestamp = comment_vote ? comment_vote.updated_at : Time.at(0)
+
+    [self.updated_at, comment_vote_timestamp].max { |a, b| a <=> b }
+  end
 end
