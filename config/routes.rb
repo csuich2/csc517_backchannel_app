@@ -1,5 +1,8 @@
 BackchannelApp::Application.routes.draw do
 
+  # This section can get a little complicated.
+  # We had to create nested routing paths so we could call methods in these controllers while in a post
+  # or comment view.
   resources :posts do
     resources :comments
     resources :comment_votes
