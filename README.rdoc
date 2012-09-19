@@ -1,17 +1,28 @@
 ==Launching our application
 After extracting the .zip, navigate into the root directory and execute the following commands:
 bundle install
+
 bundle update
+
 rake rails_env=production db:reset
+
 rake rails_env=development db:reset
+
 rake rails_env=test db:reset
+
 rake assets:precompile
+
 rails s -e production
+
 (use 'start rails s -e production' on Windows to open in a new command line window)
 
+
 In the clean production environment, there is one user with the following credentials:
+
 Username: Admin
+
 Password: password
+
 
 == Welcome to Rails
 
