@@ -29,7 +29,7 @@
       <%= who_voted_post_link @post_votes.size, "#{@post_votes.size} other users", @post.id %> have voted on this.
       <%= form_for([@post, @post_vote]) do |f| %>
         <div class="actions">
-          <%= f.submit %>
+          <%= f.submit "", :class => 'vote_button' %>
         </div>
       <% end %>
     <% end %>
