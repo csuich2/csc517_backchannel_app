@@ -26,7 +26,7 @@
     <% elsif @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
       You and <%= who_voted_post_link @post_votes.size-1, "#{@post_votes.size-1} other users", @post.id %> have voted on this.
     <% else %>
-      <%= @post_votes.size %> other users have voted on this.
+      <%= who_voted_post_link @post_votes.size-1, "#{@post_votes.size-1} other users", @post.id %>' have voted on this.
       <%= form_for([@post, @post_vote]) do |f| %>
         <div class="actions">
           <%= f.submit %>
@@ -74,11 +74,12 @@
           <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this comment.
       <% else %>
           <% # This is not the current user's comment %>
+          <p><%= c.text %> (<%= c.user.username %>)</p>
           <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
           <% if c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
               You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this.
           <% else %>
-            <p><%= c.text %> (<%= c.user.username %>)</p>
+
             <% @comment_vote = CommentVote.new() %>
             <% @comment_vote.comment = c %>
             <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
@@ -89,6 +90,7 @@
             <% end %>
           <% end %>
           <% if @current_user.is_admin %>
+            <br/>
             <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
           <% end %>
       <% end %>
