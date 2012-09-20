@@ -10,12 +10,7 @@ class Comment < ActiveRecord::Base
   validates :post_id, :presence => true
   validates :user_id, :presence => true
 
-  after_validation :log_errors, :if => Proc.new {|m| m.errors}
-
-  def log_errors
-    Rails.logger.debug self.errors.full_messages.join("\n")
-  end
-
+  # Gets the latest timestamp for a comment to use for sorting
   def latest_timestamp
 
     comment_vote = CommentVote.order("updated_at DESC").all(:conditions => "comment_id in (SELECT id FROM comments WHERE id = #{self.id})").first

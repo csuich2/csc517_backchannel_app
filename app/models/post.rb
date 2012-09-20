@@ -12,7 +12,7 @@ class Post < ActiveRecord::Base
   validates :category_id, :presence => true
   validates :user_id, :presence => true
 
-
+  # Search for posts given some content search criteria
   def self.search(search)
     search_conditions = "%#{search}%"
     all(:conditions => ['title like ? OR text like ?', search_conditions, search_conditions])
