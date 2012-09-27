@@ -12,13 +12,16 @@
   <%unless session[:user_id]%>
       <%= link_to :Signup , :signup, :class => "nav_links"%>
       <%= link_to :Login , :login, :class => "nav_links"%>
+      <br/>
+      <%= link_to :Search, :search, :class => "nav_links" %>
+      <%= link_to :Posts, :posts, :class => "nav_links" %>
   <%else%>
       <%= link_to :Home , :home, :class => "nav_links" %>
       <%= link_to :Logout , :logout, :class => "nav_links" %>
       <%= link_to :Search, :search, :class => "nav_links" %>
       <br/>
       <%= link_to :Posts, :posts, :class => "nav_links" %>
-      <%if @current_user.is_admin?%>
+      <%if @current_user != nil && @current_user.is_admin?%>
         <%= link_to :Categories, :categories, :class => "nav_links" %>
         <%= link_to :Users, :users, :class => "nav_links" %>
       <%end%>

@@ -11,7 +11,7 @@
           <td><%= post.title %></td>
           <td><%= post.user.username %></td>
           <td><%= link_to 'Show', post %>
-          <% if post.user.id == @current_user.id || @current_user.is_admin? %>
+          <% if @current_user != nil && (post.user.id == @current_user.id || @current_user.is_admin?) %>
               <%= link_to 'Edit', edit_post_path(post) %>
               <%= link_to 'Destroy', post, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
           <% end %>

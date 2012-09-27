@@ -13,9 +13,15 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def authenticate_user_if_logged_in
+    if session[:user_id]
+      @current_user = User.find session[:user_id]
+    end
+  end
+
   # Check to make sure the @current_user is an admin. If not, redirect them with an error
   def assert_is_admin_user
-    if @current_user.is_admin
+    if @current_user.is_admin?
       return true
     else
       flash[:notice] = "You are not authorized to view that page."

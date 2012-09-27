@@ -1,5 +1,6 @@
 class PostsController < ApplicationController
-  before_filter :authenticate_user
+  before_filter :authenticate_user, :only => [:new, :edit, :create, :update, :destroy]
+  before_filter :authenticate_user_if_logged_in, :except => [:new, :edit, :create, :update, :destroy]
 
   # GET /posts
   def index

@@ -21,33 +21,37 @@
     <% @post_vote.post = @post %>
 
     <% @post_votes = @post.post_votes.where(:post_id => @post.id) %>
-    <% if @post.user_id == @current_user.id %>
+    <% if @current_user != nil && @post.user_id == @current_user.id %>
       <%= who_voted_post_link @post_votes.size, "#{@post_votes.size} other users", @post.id %> have voted on this.
-    <% elsif @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
+    <% elsif @current_user != nil && @post.post_votes.where(:post_id => @post.id, :user_id => @current_user.id).exists?() %>
       You and <%= who_voted_post_link @post_votes.size-1, "#{@post_votes.size-1} other users", @post.id %> have voted on this.
     <% else %>
       <%= who_voted_post_link @post_votes.size, "#{@post_votes.size} other users", @post.id %> have voted on this.
-      <%= form_for([@post, @post_vote]) do |f| %>
-        <div class="actions">
-          <%= f.submit "", :class => 'vote_button' %>
-        </div>
+      <% if @current_user != nil %>
+          <%= form_for([@post, @post_vote]) do |f| %>
+            <div class="actions">
+              <%= f.submit "", :class => 'vote_button' %>
+            </div>
+          <% end %>
       <% end %>
     <% end %>
   </p>
 </div>
 
-<div class='box add_comment'>
-  <b>Add Comment:</b>
-  <%= form_for([@post, @post.comments.build]) do |f| %>
-    <div class="field">
-      <%= f.label :text %><br />
-      <%= f.text_area :text, :rows => 3 %>
+<% if @current_user != nil %>
+    <div class='box add_comment'>
+      <b>Add Comment:</b>
+      <%= form_for([@post, @post.comments.build]) do |f| %>
+        <div class="field">
+          <%= f.label :text %><br />
+          <%= f.text_area :text, :rows => 3 %>
+        </div>
+        <div class="actions">
+          <%= f.submit %>
+        </div>
+      <% end %>
     </div>
-    <div class="actions">
-      <%= f.submit %>
-    </div>
-  <% end %>
-</div>
+<% end %>
 
 <div class='box comments'>
   <b>Comments:</b>
@@ -55,7 +59,7 @@
     <% @comments.each do |c| %>
       <div class='box comment'>
       <% # If the current user is the comment author %>
-      <% if c.user.id == @current_user.id %>
+      <% if @current_user != nil && c.user.id == @current_user.id %>
             <% # Create the form for editing this comment %>
             <% @comment_vote = CommentVote.new() %>
             <% @comment_vote.comment = c %>
@@ -77,20 +81,22 @@
           <% # This is not the current user's comment %>
           <p><%= c.text %> (<%= c.user.username %>)</p>
           <% @comment_votes = c.comment_votes.where(:comment_id => c.id) %>
-          <% if c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
+          <% if @current_user != nil && c.comment_votes.where(:comment_id => c.id, :user_id => @current_user.id).exists?() %>
               You and <%= who_voted_comment_link @comment_votes.size-1, "#{@comment_votes.size-1} other users", c.id %> have voted on this.
           <% else %>
 
             <% @comment_vote = CommentVote.new() %>
             <% @comment_vote.comment = c %>
             <%= who_voted_comment_link @comment_votes.size, "#{@comment_votes.size} other users", c.id %> have voted on this.
-            <%= form_for([c, c.comment_votes.build]) do |f| %>
-                <div class="actions">
-                  <%= f.submit "", :class => 'vote_button' %>
-                </div>
+            <% if @current_user != nil %>
+                <%= form_for([c, c.comment_votes.build]) do |f| %>
+                    <div class="actions">
+                      <%= f.submit "", :class => 'vote_button' %>
+                    </div>
+                <% end %>
             <% end %>
           <% end %>
-          <% if @current_user.is_admin %>
+          <% if @current_user != nil && @current_user.is_admin %>
             <br/>
             <%= link_to 'Delete', post_comment_path(@post, c), :confirm => 'Are you sure?', :method => :delete %>
           <% end %>
@@ -100,7 +106,9 @@
 </div>
 
 
-<%= link_to 'Edit', edit_post_path(@post) %>
+<% if @current_user != nil && (@current_user == @post.user || @current_user.is_admin?) %>
+    <%= link_to 'Edit', edit_post_path(@post) %>
+<% end %>
 <% unless session[:search_url] %>
     <%= link_to 'Back', posts_path %>
 <% else %>

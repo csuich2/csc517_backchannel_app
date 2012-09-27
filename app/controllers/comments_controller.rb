@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
-  before_filter :authenticate_user
+  before_filter :authenticate_user, :except => [:who_voted]
+  before_filter :authenticate_user_if_logged_in, :only => [:who_voted]
 
   # GET /comments/new
   def new
