@@ -11,7 +11,7 @@ class PostVotesController < ApplicationController
       if @post_vote.save
         format.html { redirect_to post_path(@post_vote.post), :notice => 'Post vote was successfully created.' }
       else
-        format.html { redirect_to post_path(@post_vote.post), :notice => 'Post vote was successfully created.' }
+        format.html { redirect_to post_path(@post_vote.post), :notice => 'Post vote was not created.' }
       end
     end
   end

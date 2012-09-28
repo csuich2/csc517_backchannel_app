@@ -12,12 +12,14 @@
         <td><%= user.username %></td>
         <td><%= user.is_admin? %></td>
         <td>
-        <% if user.is_admin?  %>
-          <%= link_to 'Revoke admin', "/users/revoke_admin/#{user.id}" %>
-        <% else %>
-          <%= link_to 'Make admin', "/users/make_admin/#{user.id}" %>
+        <% if user != @current_user %>
+            <% if user.is_admin? %>
+              <%= link_to 'Revoke admin', "/users/revoke_admin/#{user.id}" %>
+            <% else %>
+              <%= link_to 'Make admin', "/users/make_admin/#{user.id}" %>
+            <% end %>
+            <%= link_to 'Delete', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
         <% end %>
-        <%= link_to 'Delete', user, :method => :delete, :data => { :confirm => 'Are you sure?' } %>
         <%= link_to 'Vote report', :controller => :users, :action => :votes, :id => user %>
         </td>
       </tr>

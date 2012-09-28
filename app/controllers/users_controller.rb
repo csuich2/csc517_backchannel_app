@@ -34,6 +34,12 @@ class UsersController < ApplicationController
   def destroy
     @user = User.find(params[:id])
 
+    # Make sure a user does not try to delete their self
+    if (@user == @current_user)
+      redirect_to users_url
+      return
+    end
+
     @user.destroy
 
     respond_to do |format|
@@ -43,6 +49,12 @@ class UsersController < ApplicationController
 
   def make_admin
     @user = User.find(params[:id])
+
+    # Make sure a user does not try to grant their self admin access
+    if (@user == @current_user)
+      redirect_to users_url
+      return
+    end
 
     @user.is_admin = true
 
@@ -59,6 +71,12 @@ class UsersController < ApplicationController
 
   def revoke_admin
     @user = User.find(params[:id])
+
+    # Make sure a user does not try to revoke their admin access
+    if (@user == @current_user)
+      redirect_to users_url
+      return
+    end
 
     @user.is_admin = false
 

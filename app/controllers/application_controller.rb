@@ -2,9 +2,19 @@ class ApplicationController < ActionController::Base
   protect_from_forgery
 
   protected
-  # If a user is logged in, set the @current_user variable from their id
+  # Use this authentication method for pages that require the user to be logged
+  # in. If a user is logged in, set the @current_user variable from their id. If
+  # the visitor is not logged in, redirect them to the login page.
   def authenticate_user
-    unless session[:user_id]
+    unless session[:user_id] && User.exists?(session[:user_id])
+      # If the session user id exists, but the user doesn't,
+      # remove the session variable and show an error.
+      if session[:user_id]
+        session[:user_id] = nil
+        session[:search_url] = nil
+        flash[:notice] = "Unable to find the logged in user!"
+        flash[:color] = "invalid"
+      end
       redirect_to(:controller => 'sessions', :action => 'login')
       return false
     else
@@ -13,9 +23,19 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  # Use this authentication method for pages that visitors (people who are not
+  # logged in) can view. This method will set @current_user if someone is logged
+  # in, but will not redirect them if they are not.
   def authenticate_user_if_logged_in
-    if session[:user_id]
+    if session[:user_id] && User.exists?(session[:user_id])
       @current_user = User.find session[:user_id]
+    elsif session[:user_id]
+      # If the session user id exists, but the user doesn't,
+      # remove the session variable and show an error.
+      session[:user_id] = nil
+      session[:search_url] = nil
+      flash[:notice] = "Unable to find the logged in user!"
+      flash[:color] = "invalid"
     end
   end
 
