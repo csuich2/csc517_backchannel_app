@@ -51,6 +51,11 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     logout
   end
 
+  test 'create user' do
+    get '/signup'
+    post_via_redirect '/users', :user => {:username => 'Int Test', :password => 'testing', :password_confirmation => 'testing'}
+    assert_equal '/home', path
+  end
 
   def login(username, password)
     get '/logout'
