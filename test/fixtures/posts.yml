@@ -7,10 +7,10 @@ post1:
   user_id: 2
   category_id: 1
 
-post1:
-   id: 1
+post2:
+   id: 2
    title: 'Test post 2'
-   text: 'Test post 2 created by user 2 (test2)'
-   user_id: 2
+   text: 'Test post 2 created by user 3 (test3)'
+   user_id: 3
    category_id: 1
 
