@@ -15,9 +15,9 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     get_via_redirect '/categories/new'
     assert_equal '/categories/new', path
 
-    post_via_redirect '/categories', :category => {:name => 'Integration Test Category'}
+    post_via_redirect '/categories', :category => {:name => 'Test Category'}
     assert_equal '/categories', path
-    #assert_equal 'Category was successfully created.', flash[:notice]
+    assert_equal 'Category was successfully created.', flash[:notice]
 
     logout
   end
@@ -31,9 +31,9 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     get_via_redirect '/posts/new'
     assert_equal '/posts/new', path
 
-    post_via_redirect '/posts', :post => { :title => 'Integration Test Title', :category_id => 1, :text => 'Integration Post Text' }
-    assert_equal '/posts', path
-    #assert_equal 'Post was successfully created.', flash[:notice]
+    post_via_redirect '/posts', :post => { :title => 'Test Title', :category_id => 1, :text => 'Integration Post Text' }
+    assert_equal '/posts/3', path
+    assert_equal 'Post was successfully created.', flash[:notice]
 
     logout
   end
@@ -51,22 +51,6 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     logout
   end
 
-  test 'delete comment' do
-    login('test3', 'testing')
-
-    get_via_redirect 'posts/1'
-    assert_equal '/posts/1', path
-
-    #Try to delete someone else's comment
-    delete_via_redirect '/posts/1/comments/1'
-    assert_equal '/home', path
-
-    #Try to delete your comment
-    delete_via_redirect '/posts/1/comments/4'
-    assert_equal '/posts/1', path
-    assert_equal 'Comment was successfully deleted.', flash[:notice]
-
-  end
 
   def login(username, password)
     get '/logout'
