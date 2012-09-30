@@ -52,11 +52,12 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     @post = @comment.post
 
-    assert_is_owner_or_admin(@comment.user)
+    if assert_is_owner_or_admin(@comment.user)
 
-    @comment.destroy
-    respond_to do |format|
-      format.html { redirect_to post_path(@post), :notice => 'Comment was successfully deleted.' }
+        @comment.destroy
+        respond_to do |format|
+          format.html { redirect_to post_path(@post), :notice => 'Comment was successfully deleted.' }
+        end
     end
   end
 
