@@ -65,13 +65,13 @@ class PostsController < ApplicationController
   def update
     @post = Post.find(params[:id])
 
-    assert_is_owner_or_admin(@post.user)
-
-    respond_to do |format|
-      if @post.update_attributes(params[:post])
-        format.html { redirect_to @post, :notice => 'Post was successfully updated.' }
-      else
-        format.html { render :action => "edit" }
+    if assert_is_owner_or_admin(@post.user)
+      respond_to do |format|
+        if @post.update_attributes(params[:post])
+          format.html { redirect_to @post, :notice => 'Post was successfully updated.' }
+        else
+          format.html { render :action => "edit" }
+        end
       end
     end
   end
@@ -80,18 +80,19 @@ class PostsController < ApplicationController
   def destroy
     @post = Post.find(params[:id])
 
-    assert_is_owner_or_admin(@post.user)
+    if assert_is_owner_or_admin(@post.user)
 
-    @post.destroy
+      @post.destroy
 
-    respond_to do |format|
-      format.html {
-        unless session[:search_url]
-          redirect_to posts_url
-        else
-          redirect_to session[:search_url]
-        end
-      }
+      respond_to do |format|
+        format.html {
+          unless session[:search_url]
+            redirect_to posts_url
+          else
+            redirect_to session[:search_url]
+          end
+        }
+      end
     end
   end
 
