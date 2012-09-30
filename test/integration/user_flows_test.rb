@@ -6,7 +6,7 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     login('test', 'testing')
   end
 
-  test 'create new category' do
+  test 'create category' do
     login('test', 'testing')
 
     get_via_redirect '/categories'
@@ -22,7 +22,7 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     logout
   end
 
-  test 'create new post' do
+  test 'create post' do
     login('test', 'testing')
 
     get_via_redirect '/posts'
@@ -38,7 +38,7 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     logout
   end
 
-  test 'create new comment' do
+  test 'create comment' do
     login('test', 'testing')
 
     get_via_redirect '/posts/1'
@@ -51,6 +51,23 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     logout
   end
 
+  test 'delete comment' do
+    login('test3', 'testing')
+
+    get_via_redirect 'posts/1'
+    assert_equal '/posts/1', path
+
+    #Try to delete someone else's comment
+    delete_via_redirect '/posts/1/comments/1'
+    assert_equal '/home', path
+
+    #Try to delete your comment
+    delete_via_redirect '/posts/1/comments/4'
+    assert_equal '/posts/1', path
+    assert_equal 'Comment was successfully deleted.', flash[:notice]
+
+  end
+
   def login(username, password)
     get '/logout'
     get '/login'
@@ -58,7 +75,7 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
 
     post_via_redirect '/sessions/login_attempt', :username => username, :login_password => password
     assert_equal '/home', path
-    assert_equal 'Welcome, test!', flash[:notice]
+    assert_equal 'Welcome, ' + username + '!', flash[:notice]
   end
 
   def logout

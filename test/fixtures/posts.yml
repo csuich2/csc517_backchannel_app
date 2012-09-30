@@ -3,6 +3,14 @@
 post1:
   id: 1
   title: 'Test post 1'
-  text: 'lakjsdlfajdslfajsdlfjasdlfkjalsdfk'
+  text: 'Test post 1 created by user 2 (test2)'
   user_id: 2
   category_id: 1
+
+post1:
+   id: 1
+   title: 'Test post 2'
+   text: 'Test post 2 created by user 2 (test2)'
+   user_id: 2
+   category_id: 1
+

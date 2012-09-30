@@ -11,3 +11,15 @@ comment2:
   text: 'Test comment from non-owner'
   post_id: 1
   user_id: 3
+
+comment3:
+  id: 3
+  text: 'Test comment from non-owner'
+  post_id: 1
+  user_id: 3
+
+comment4:
+  id: 4
+  text: 'Test comment from non-owner'
+  post_id: 1
+  user_id: 3
