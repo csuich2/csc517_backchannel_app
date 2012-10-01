@@ -1,6 +1,9 @@
 require 'test_helper'
+require_relative 'testing_mixin'
 
 class CheckReportTest < ActionDispatch::IntegrationTest
+  include TestingMixin
+
   # check for Admin
   test 'check report' do
     login('test', 'testing')
@@ -51,21 +54,6 @@ class CheckReportTest < ActionDispatch::IntegrationTest
     assert_equal '/home', path
     assert_equal 'You are not authorized to view that page.', flash[:notice]
 
-  end
-
-  def login(username, password)
-    get '/logout'
-    get '/login'
-    assert_response :success
-
-    post_via_redirect '/sessions/login_attempt', :username => username, :login_password => password
-    assert_equal '/home', path
-    assert_equal "Welcome, #{username}!", flash[:notice]
-  end
-
-  def logout
-    get_via_redirect '/logout'
-    assert_equal '/', path
   end
 
 end

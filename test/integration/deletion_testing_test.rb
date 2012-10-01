@@ -1,10 +1,8 @@
 require 'test_helper'
+require_relative 'testing_mixin'
 
 class DeletionTestingTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
-
+  include TestingMixin
 
   test 'delete comment' do
     login('test3', 'testing')
@@ -41,21 +39,6 @@ class DeletionTestingTest < ActionDispatch::IntegrationTest
     assert_equal '/posts', path
     assert_equal 'Post was successfully deleted.', flash[:notice]
 
-  end
-
-  def login(username, password)
-    get '/logout'
-    get '/login'
-    assert_response :success
-
-    post_via_redirect '/sessions/login_attempt', :username => username, :login_password => password
-    assert_equal '/home', path
-    assert_equal 'Welcome, ' + username + '!', flash[:notice]
-  end
-
-  def logout
-    get_via_redirect '/logout'
-    assert_equal '/', path
   end
 
 end

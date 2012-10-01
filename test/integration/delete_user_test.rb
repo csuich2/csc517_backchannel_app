@@ -1,6 +1,9 @@
 require 'test_helper'
+require_relative 'testing_mixin'
 
 class DeleteUserTest < ActionDispatch::IntegrationTest
+  include TestingMixin
+
   # check for admin
   test 'delete user' do
     get '/logout'
@@ -57,21 +60,6 @@ class DeleteUserTest < ActionDispatch::IntegrationTest
     # Checking whether the count before delete attempt and after delete attempt is same or not
     assert_equal count_before_delete_attempt, count_after_delete_attempt
     get '/logout'
-  end
-
-  def login(username, password)
-    get '/logout'
-    get '/login'
-    assert_response :success
-
-    post_via_redirect '/sessions/login_attempt', :username => username, :login_password => password
-    assert_equal '/home', path
-    assert_equal "Welcome, #{username}!", flash[:notice]
-  end
-
-  def logout
-    get_via_redirect '/logout'
-    assert_equal '/', path
   end
 
   def table_display(count)
