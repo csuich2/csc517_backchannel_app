@@ -87,9 +87,9 @@ class PostsController < ApplicationController
       respond_to do |format|
         format.html {
           unless session[:search_url]
-            redirect_to posts_url
+            redirect_to posts_url, :notice => 'Post was successfully deleted.'
           else
-            redirect_to session[:search_url]
+            redirect_to session[:search_url], :notice => 'Post was successfully deleted.'
           end
         }
       end
