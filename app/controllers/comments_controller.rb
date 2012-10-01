@@ -36,14 +36,14 @@ class CommentsController < ApplicationController
     @comment = Comment.find(params[:id])
     @post = @comment.post
 
-    assert_is_owner_or_admin(@comment.user)
-
-    respond_to do |format|
-      if @comment.update_attributes(params[:comment])
-        format.html { redirect_to post_path(@post), :notice => 'Comment was successfully updated.' }
-      else
-        format.html { redirect_to post_path(@post), :notice => 'An error occurred saving your comment' }
-      end
+    if assert_is_owner_or_admin(@comment.user)
+       respond_to do |format|
+          if @comment.update_attributes(params[:comment])
+            format.html { redirect_to post_path(@post), :notice => 'Comment was successfully updated.' }
+          else
+            format.html { redirect_to post_path(@post), :notice => 'An error occurred saving your comment' }
+          end
+       end
     end
   end
 
