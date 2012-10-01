@@ -81,10 +81,10 @@ class UsersController < ApplicationController
     @user.is_admin = false
 
     if @user.save
-      flash[:notice] = "#{@user.username} has been granted admin access."
+      flash[:notice] = "#{@user.username}'s admin rights have been revoked."
       flash[:color] = "valid"
     else
-      flash[:notice] = "An error occurred granting admin access."
+      flash[:notice] = "An error occurred revoking admin access."
       flash[:color] = "error"
     end
 

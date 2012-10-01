@@ -1,15 +1,15 @@
 <h2>Search by Category</h2>
-<%= form_tag '/search_by_category', :action => 'search_by_category', :method => :get do %>
+<form action="<%= '/search_by_category' %>" method = "get">
     <%= collection_select :search, :category_id, Category.all, :id, :name %>
     <%= submit_tag "Search", :name => nil %>
-<% end %>
+</form>
 <h2>Search by User</h2>
-<%= form_tag '/search_by_user', :action => 'search_by_user', :method => :get do %>
+<form action= "<%= '/search_by_user'%>" method = "get">
     <%= text_field :search, :search %>
     <%= submit_tag "Search", :name => nil %>
-<% end %>
+</form>
 <h2>Search by Content</h2>
-<%= form_tag '/search_by_content', :action => 'search_by_content', :method => :get do %>
+<form action = "<%= '/search_by_content'%>" method = "get">
     <%= text_field :search, :search %>
     <%= submit_tag "Search", :name => nil %>
-<% end %>
+</form>
