@@ -1,3 +1,5 @@
+# The following site was used as a tutorial/basis for developing our user authentication system:
+# http://rubysource.com/rails-userpassword-authentication-from-scratch-part-i/
 class ApplicationController < ActionController::Base
   protect_from_forgery
 

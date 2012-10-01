@@ -1,3 +1,5 @@
+# The following site was used as a tutorial/basis for developing our user authentication system:
+# http://rubysource.com/rails-userpassword-authentication-from-scratch-part-i/
 class SessionsController < ApplicationController
   before_filter :authenticate_user_if_logged_in, :only => [:home]
   before_filter :save_login_state, :only => [:login, :login_attempt]

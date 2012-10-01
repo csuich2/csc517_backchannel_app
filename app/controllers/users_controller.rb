@@ -1,3 +1,5 @@
+# The following site was used as a tutorial/basis for developing our user authentication system:
+# http://rubysource.com/rails-userpassword-authentication-from-scratch-part-i/
 class UsersController < ApplicationController
   before_filter :save_login_state, :only => [:new, :create]
   before_filter :authenticate_user, :only => [:index, :destroy, :make_admin, :revoke_admin, :votes]
