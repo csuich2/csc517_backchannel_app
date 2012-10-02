@@ -15,7 +15,9 @@ class Post < ActiveRecord::Base
   # Search for posts given some content search criteria
   def self.search(search)
     search_conditions = "%#{search}%"
-    all(:conditions => ['title like ? OR text like ?', search_conditions, search_conditions])
+    post_contents = all(:conditions =>
+                            ['title like ? OR text like ? or id in (select post_id from comments where text like ?)',
+                             search_conditions, search_conditions, search_conditions])
   end
 
   def latest_timestamp

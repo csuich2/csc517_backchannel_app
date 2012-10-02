@@ -40,4 +40,15 @@ class PostTest < ActiveSupport::TestCase
     @post = Post.new(:title => 'New post title', :text => 'Test post', :category_id => 1, :user_id => 1)
     assert_equal true, @post.valid?
   end
+
+  test 'post search' do
+    @results = Post.search('Test post 1')
+    assert_equal 1, @results.size
+
+    @results = Post.search('Test post')
+    assert_equal 2, @results.size
+
+    @results = Post.search('Test comment from owner')
+    assert_equal 1, @results.size
+  end
 end

@@ -27,4 +27,12 @@ class CategoryTest < ActiveSupport::TestCase
     @category = Category.new(:name => 'New category')
     assert_equal true, @category.valid?
   end
+
+  test 'category search' do
+    @categories = Category.search(1)
+    assert_equal 2, @categories.size
+
+    @categories = Category.search(2)
+    assert_equal 0, @categories.size
+  end
 end

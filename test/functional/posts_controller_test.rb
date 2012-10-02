@@ -51,4 +51,19 @@ class PostsControllerTest < ActionController::TestCase
 
     assert_redirected_to posts_path
   end
+
+  test 'post search by category' do
+    put :search_by_category, :search => { :category_id => 1 }
+    assert_response :success
+  end
+
+  test 'post search by user' do
+    put :search_by_user, :search => { :search => 'test2' }
+    assert_response :success
+  end
+
+  test 'post search by content' do
+    put :search_by_content, :search => { :search => 'test2' }
+    assert_response :success
+  end
 end

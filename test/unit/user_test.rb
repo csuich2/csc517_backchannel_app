@@ -74,4 +74,9 @@ class UserTest < ActiveSupport::TestCase
     @user = User.new(:username => 'new_user', :password => 'testing', :password_confirmation => 'testing')
     assert_equal true, @user.valid?
   end
+
+  test 'user search' do
+    @users = User.search('test2')
+    assert_equal 1, @users.size
+  end
 end
